@@ -26,11 +26,11 @@ dispatch Redux actions in response to route changes.
 Yarn or npm.
 
 ```sh
-yarn add redux-saga-router
+yarn add @curiosity26/redux-saga-router
 ```
 
 ```sh
-npm install --save redux-saga-router
+npm install --save @curiosity26/redux-saga-router
 ```
 
 ## Usage
