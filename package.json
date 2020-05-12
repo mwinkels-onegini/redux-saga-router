@@ -5,8 +5,7 @@
   "main": "lib/index.js",
   "files": [
     "react.js",
-    "lib",
-    "src"
+    "lib"
   ],
   "scripts": {
     "build": "babel src --out-dir lib",
