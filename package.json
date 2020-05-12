@@ -1,6 +1,6 @@
 {
   "name": "redux-saga-router",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "A router for Redux Saga",
   "main": "lib/index.js",
   "files": [
@@ -29,12 +29,15 @@
     "routing",
     "history"
   ],
-  "author": "Jeremy Fairbank <elpapapollo@gmail.com> (http://jeremyfairbank.com)",
+  "authors": [
+    "Jeremy Fairbank <elpapapollo@gmail.com> (http://jeremyfairbank.com)",
+    "Alex Boyce <curiosity26@gmail.com>"
+  ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jfairbank/redux-saga-router/issues"
+    "url": "https://github.com/curiosity26/redux-saga-router/issues"
   },
-  "homepage": "https://github.com/jfairbank/redux-saga-router#readme",
+  "homepage": "https://github.com/curiosity26/redux-saga-router#readme",
   "dependencies": {
     "fsm-iterator": "^1.1.0",
     "history": "^4.10.1",
@@ -75,7 +78,7 @@
     "redux-saga-test-plan": "^4.0.0-rc.3",
     "rimraf": "^3.0.2",
     "webpack": "^4.42.1",
-    "webpack-dev-server": "^3.10.3"
+    "webpack-dev-server": "^3.11.0"
   },
   "peerDependencies": {
     "redux-saga": ">=1.1.3"
