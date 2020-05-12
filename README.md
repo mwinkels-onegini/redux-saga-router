@@ -1,7 +1,6 @@
 # Redux Saga Router
 
-[![Travis branch](https://img.shields.io/travis/jfairbank/redux-saga-router/master.svg?style=flat-square)](https://travis-ci.org/jfairbank/redux-saga-router)
-[![npm](https://img.shields.io/npm/v/redux-saga-router.svg?style=flat-square)](https://www.npmjs.com/package/redux-saga-router)
+![Node.js CI](https://github.com/curiosity26/redux-saga-router/workflows/Node.js%20CI/badge.svg)
 
 #### A router for Redux Saga
 
