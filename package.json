@@ -1,6 +1,6 @@
 {
-  "name": "redux-saga-router",
-  "version": "2.3.2",
+  "name": "@curiosity26/redux-saga-router",
+  "version": "2.3.3",
   "description": "A router for Redux Saga",
   "main": "lib/index.js",
   "files": [
