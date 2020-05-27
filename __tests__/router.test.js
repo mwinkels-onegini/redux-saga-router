@@ -1,7 +1,8 @@
 /* eslint no-console: ["error", { allow: ["error"] }] */
-import { put } from 'redux-saga/effects';
+import { put } from '@redux-saga/core/effects';
 import { expectSaga } from 'redux-saga-test-plan';
-import { createMemoryHistory as createHistory } from "history";
+import { throwError } from 'redux-saga-test-plan/providers';
+import { createMemoryHistory as createHistory } from 'history';
 import router from '../src/router';
 
 function* fooSaga() {
@@ -25,170 +26,167 @@ const runConfig = {
   timeout: 10,
 };
 
-it('responds to a route', () => {
-  const history = createHistory();
-  const routes = { '/foo': fooSaga };
+describe('router', () => {
+  it('responds to a route', () => {
+    const history = createHistory();
+    const routes = { '/foo': fooSaga };
 
-  const promise = expectSaga(router, history, routes)
-    .put({ type: 'FOO' })
-    .run(runConfig);
+    const promise = expectSaga(router, history, routes)
+      .put({ type: 'FOO' })
+      .run(runConfig);
 
-  history.push('/foo');
+    history.push('/foo');
 
-  return promise;
-});
+    return promise;
+  });
 
-it('receives params', () => {
-  const history = createHistory();
-  const routes = { '/bar/:id/details': barDetailsSaga };
+  it('receives params', () => {
+    const history = createHistory();
+    const routes = { '/bar/:id/details': barDetailsSaga };
 
-  const promise = expectSaga(router, history, routes)
-    .put({ type: 'BAR_DETAILS', payload: '42' })
-    .run(runConfig);
+    const promise = expectSaga(router, history, routes)
+      .put({ type: 'BAR_DETAILS', payload: '42' })
+      .run(runConfig);
 
-  history.push('/bar/42/details');
+    history.push('/bar/42/details');
 
-  return promise;
-});
+    return promise;
+  });
 
-it('receives multiple params', () => {
-  const history = createHistory();
-  const routes = { '/baz/:id/quux/:otherId': bazSaga };
+  it('receives multiple params', () => {
+    const history = createHistory();
+    const routes = { '/baz/:id/quux/:otherId': bazSaga };
 
-  const promise = expectSaga(router, history, routes)
-    .put({ type: 'BAZ', payload: ['42', '13'] })
-    .run(runConfig);
+    const promise = expectSaga(router, history, routes)
+      .put({ type: 'BAZ', payload: ['42', '13'] })
+      .run(runConfig);
 
-  history.push('/baz/42/quux/13');
+    history.push('/baz/42/quux/13');
 
-  return promise;
-});
+    return promise;
+  });
 
-it('keeps listening for new routes', () => {
-  const history = createHistory();
+  it('keeps listening for new routes', () => {
+    const history = createHistory();
 
-  const routes = {
-    '/foo': fooSaga,
-    '/bar/:id/details': barDetailsSaga,
-  };
+    const routes = {
+      '/foo': fooSaga,
+      '/bar/:id/details': barDetailsSaga,
+    };
 
-  const promise = expectSaga(router, history, routes)
-    .put({ type: 'FOO' })
-    .put({ type: 'BAR_DETAILS', payload: '42' })
-    .run(runConfig);
+    const promise = expectSaga(router, history, routes)
+      .put({ type: 'FOO' })
+      .put({ type: 'BAR_DETAILS', payload: '42' })
+      .run(runConfig);
 
-  history.push('/foo');
-  history.push('/bar/42/details');
+    history.push('/foo');
+    history.push('/bar/42/details');
 
-  return promise;
-});
+    return promise;
+  });
 
-// Disable test due to https://github.com/facebook/jest/issues/5620
-xit('keeps listening if a route saga throws an error', async () => {
-  const consoleError = console.error;
-  console.error = () => {};
+  // Disable test due to https://github.com/facebook/jest/issues/5620
+  it('keeps listening if a route saga throws an error', async () => {
+    const consoleError = console.error;
+    console.error = jest.fn();
+    const history = createHistory();
+    const spy = jest.fn();
 
-  function unhandledRejectionHandler() {}
-  process.on('unhandledRejection', unhandledRejectionHandler);
+    const routes = {
+      // eslint-disable-next-line require-yield
+      '/foo': function* fooSaga2() {
+        spy();
+      },
 
-  const history = createHistory();
-  const spy = jest.fn();
+      // eslint-disable-next-line require-yield
+      '/bar': function* barSaga2() {
+        throwError(new Error('error'));
+      },
+    };
 
-  const routes = {
-    // eslint-disable-next-line require-yield
-    '/foo': function* fooSaga2() {
-      spy();
-    },
+    const promise = expectSaga(router, history, routes).run(runConfig);
 
-    // eslint-disable-next-line require-yield
-    '/bar': function* barSaga2() {
-      throw new Error('error');
-    },
-  };
+    history.push('/bar');
+    history.push('/foo');
 
-  const promise = expectSaga(router, history, routes).run(runConfig);
+    await promise;
 
-  history.push('/bar');
-  history.push('/foo');
+    expect(spy).toHaveBeenCalledTimes(1);
 
-  await promise;
+    await promise;
 
-  expect(spy).toHaveBeenCalledTimes(1);
+    console.error = consoleError;
+  });
 
-  await promise;
+  it('inexact routes do not match without *', async () => {
+    const history = createHistory();
+    const routes = { '/foo': fooSaga };
 
-  console.error = consoleError;
-  process.removeListener('unhandledRejection', unhandledRejectionHandler);
-});
+    const promise = expectSaga(router, history, routes)
+      .not.put.actionType('FOO')
+      .run(runConfig);
 
-it('inexact routes do not match without *', async () => {
-  const history = createHistory();
-  const routes = { '/foo': fooSaga };
+    history.push('/foo/bar');
 
-  const promise = expectSaga(router, history, routes)
-    .not.put.actionType('FOO')
-    .run(runConfig);
+    await promise;
+  });
 
-  history.push('/foo/bar');
+  it('matches wildcards with *', async () => {
+    const history = createHistory();
+    const routes = { '/foo*': fooSaga };
 
-  await promise;
-});
+    const promise = expectSaga(router, history, routes)
+      .put({ type: 'FOO' })
+      .run(runConfig);
 
-it('matches wildcards with *', async () => {
-  const history = createHistory();
-  const routes = { '/foo*': fooSaga };
+    history.push('/foo/bar');
 
-  const promise = expectSaga(router, history, routes)
-    .put({ type: 'FOO' })
-    .run(runConfig);
+    await promise;
+  });
 
-  history.push('/foo/bar');
+  it('handles an initial location', async () => {
+    const history = createHistory('/');
 
-  await promise;
-});
+    const routes = {
+      '/': function* homeSaga() {
+        yield put({ type: 'HOME' });
+      },
+    };
 
-it('handles an initial location', async () => {
-  const history = createHistory('/');
+    await expectSaga(router, history, routes)
+      .put({ type: 'HOME' })
+      .run(runConfig);
+  });
 
-  const routes = {
-    '/': function* homeSaga() {
-      yield put({ type: 'HOME' });
-    },
-  };
+  it('handles an beforeRouteChange', async () => {
+    const history = createHistory();
+    const callOrder = [];
 
-  await expectSaga(router, history, routes)
-    .put({ type: 'HOME' })
-    .run(runConfig);
-});
+    const routes = {
+      '/foo': function* fooSaga2() {
+        callOrder.push('foo');
+        yield put({ type: 'FOO' });
+      },
+    };
 
-it('handles an beforeRouteChange', async () => {
-  const history = createHistory();
-  const callOrder = [];
+    const options = {
+      * beforeRouteChange() {
+        callOrder.push('beforeRouteChange');
+        yield put({ type: 'BEFORE' });
+      },
+    };
 
-  const routes = {
-    '/foo': function* fooSaga2() {
-      callOrder.push('foo');
-      yield put({ type: 'FOO' });
-    },
-  };
+    const promise = expectSaga(router, history, routes, options)
+      .put({ type: 'BEFORE' })
+      .put({ type: 'FOO' })
+      .run(runConfig);
 
-  const options = {
-    * beforeRouteChange() {
-      callOrder.push('beforeRouteChange');
-      yield put({ type: 'BEFORE' });
-    },
-  };
+    history.push('/foo');
 
-  const promise = expectSaga(router, history, routes, options)
-    .put({ type: 'BEFORE' })
-    .put({ type: 'FOO' })
-    .run(runConfig);
+    await promise;
 
-  history.push('/foo');
-
-  await promise;
-
-  expect(callOrder).toEqual(['beforeRouteChange', 'foo']);
+    expect(callOrder).toEqual(['beforeRouteChange', 'foo']);
+  });
 });
 
 describe('without matchAll option', () => {

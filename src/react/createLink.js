@@ -1,33 +1,27 @@
 /* eslint-disable global-require,import/no-extraneous-dependencies */
-import React, { Component } from 'react';
+import React from 'react';
 
 const PropTypes = React.PropTypes || require('prop-types');
 
-export default function createLink(history) {
-  class Link extends Component {
-    // eslint-disable-next-line
-    static propTypes = {
-      to: PropTypes.string.isRequired,
-      className: PropTypes.string,
-      children: PropTypes.any,
-    };
+const createLink = (history) => {
+  const Link = ({ to, className, children }) => (
+    <a
+      href={to} className={className} onClick={e => {
+        e.preventDefault();
+        history.push(to);
+      }}
+    >
+      {children}
+    </a>
+  );
 
-    // eslint-disable-next-line
-    onClick = (e) => {
-      e.preventDefault();
-      history.push(this.props.to);
-    };
-
-    render() {
-      const { to, className, children } = this.props;
-
-      return (
-        <a href={to} className={className} onClick={this.onClick}>
-          {children}
-        </a>
-      );
-    }
-  }
+  Link.propTypes = {
+    to: PropTypes.string.isRequired,
+    className: PropTypes.string,
+    children: PropTypes.any,
+  };
 
   return Link;
-}
+};
+
+export default createLink;

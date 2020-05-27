@@ -1,4 +1,4 @@
-import { eventChannel, buffers } from 'redux-saga';
+import { eventChannel, buffers } from '@redux-saga/core';
 
 const BUFFER_LIMIT = 5;
 
