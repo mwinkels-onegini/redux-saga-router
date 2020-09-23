@@ -110,6 +110,11 @@ export default function router(history, routes, options = {}) {
 
       return fsm[LISTEN]();
     },
+    
+    return(value, fsm) {
+      historyChannel.close();
+      return { done: true };
+    },
 
     throw(e, fsm) {
       switch (fsm.previousState) {
