@@ -1,0 +1,34 @@
+version: 2.1
+
+orbs:
+  onegini-build: onegini/onegini-build@dev:alpha
+
+.dev-context: &dev-context
+  context: dev-context
+
+.require-build: &require-build
+  requires:
+    - build
+
+.require-test: &require-test
+  requires:
+    - test
+
+workflows:
+  version: 2
+  build-workflow:
+    jobs:
+      - onegini-build/npm-build:
+          name: build
+          <<: *dev-context
+
+      - onegini-build/jest:
+          name: test
+          <<: *dev-context
+          <<: *require-build
+
+      - onegini-build/npm-audit:
+          name: check
+          audit_level: critical
+          <<: *dev-context
+          <<: *require-test
