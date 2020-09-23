@@ -1,5 +1,5 @@
 {
-  "name": "@curiosity26/redux-saga-router",
+  "name": "@onegini/redux-saga-router",
   "version": "2.3.4",
   "description": "A router for Redux Saga",
   "main": "lib/index.js",
@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/curiosity26/redux-saga-router.git"
+    "url": "git@github.com:Onegini/redux-saga-router.git"
   },
   "keywords": [
     "redux",
@@ -34,9 +34,9 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/curiosity26/redux-saga-router/issues"
+    "url": "https://github.com/Onegini/redux-saga-router/issues"
   },
-  "homepage": "https://github.com/curiosity26/redux-saga-router#readme",
+  "homepage": "https://github.com/Onegini/redux-saga-router#readme",
   "dependencies": {
     "fsm-iterator": "^1.1.0",
     "history": "^4.10.1",
@@ -92,5 +92,8 @@
     ],
     "testRegex": "(/__tests__/.*\\.(test|spec))\\.jsx?$",
     "collectCoverage": true
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
