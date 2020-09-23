@@ -1,6 +1,6 @@
 # Redux Saga Router
 
-![Node.js CI](https://github.com/curiosity26/redux-saga-router/workflows/Node.js%20CI/badge.svg)
+[![CircleCI](https://circleci.com/gh/Onegini/redux-saga-router.svg?style=shield&circle-token=e93541c6c4bc76f7d341e570b11a656955a062d6)](https://circleci.com/gh/Onegini/redux-saga-router)
 
 #### A router for Redux Saga
 
@@ -26,11 +26,11 @@ dispatch Redux actions in response to route changes.
 Yarn or npm.
 
 ```sh
-yarn add @curiosity26/redux-saga-router
+yarn add @onegini/redux-saga-router
 ```
 
 ```sh
-npm install --save @curiosity26/redux-saga-router
+npm install --save @onegini/redux-saga-router
 ```
 
 ## Usage
@@ -103,7 +103,7 @@ route sagas.
 
 ## Routes
 
-Routes may be expressed as either an object or an array with the main difference 
+Routes may be expressed as either an object or an array with the main difference
 being that the array form preserves order and, therefore, the precedence of
 routes.
 
