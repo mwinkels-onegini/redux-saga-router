@@ -16,7 +16,7 @@ export default function createHistoryChannel(history) {
       emitter(initialLocation);
     }
 
-    return history.listen(({ action, location }) => {
+    return history.listen(({ location }) => {
       emitter(location);
     });
   }
