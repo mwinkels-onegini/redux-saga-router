@@ -15,7 +15,7 @@ function createOldHistory(initialLocation) {
     },
 
     emit(location) {
-      listener(location);
+      listener({ location });
     },
   };
 }
@@ -35,7 +35,7 @@ function createHistory(initialLocation) {
     },
 
     emit(location) {
-      listener(location);
+      listener({ location });
     },
   };
 }
