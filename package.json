@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:Onegini/redux-saga-router.git"
+    "url": "git@github.com:onewelcome/redux-saga-router.git"
   },
   "keywords": [
     "redux",
