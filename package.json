@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:Onegini/redux-saga-router.git"
+    "url": "git@github.com:onewelcome/redux-saga-router.git"
   },
   "keywords": [
     "redux",
@@ -34,9 +34,9 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Onegini/redux-saga-router/issues"
+    "url": "https://github.com/onewelcome/redux-saga-router/issues"
   },
-  "homepage": "https://github.com/Onegini/redux-saga-router#readme",
+  "homepage": "https://github.com/onewelcome/redux-saga-router#readme",
   "dependencies": {
     "fsm-iterator": "^1.1.0",
     "history": "^5.0.0",
@@ -79,9 +79,7 @@
     "redux": "^4.0.5",
     "redux-saga": "^1.1.3",
     "redux-saga-test-plan": "^4.0.1",
-    "rimraf": "^3.0.2",
-    "webpack": "^5.72.0",
-    "webpack-dev-server": "^3.11.2"
+    "rimraf": "^3.0.2"
   },
   "peerDependencies": {
     "@redux-saga/core": ">=1.1.3"
