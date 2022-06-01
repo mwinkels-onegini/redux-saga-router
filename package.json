@@ -34,9 +34,9 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Onegini/redux-saga-router/issues"
+    "url": "https://github.com/onewelcome/redux-saga-router/issues"
   },
-  "homepage": "https://github.com/Onegini/redux-saga-router#readme",
+  "homepage": "https://github.com/onewelcome/redux-saga-router#readme",
   "dependencies": {
     "fsm-iterator": "^1.1.0",
     "history": "^5.0.0",
