@@ -1,6 +1,6 @@
 # Redux Saga Router
 
-[![CircleCI](https://circleci.com/gh/Onegini/redux-saga-router.svg?style=shield&circle-token=e93541c6c4bc76f7d341e570b11a656955a062d6)](https://circleci.com/gh/Onegini/redux-saga-router)
+[![CircleCI](https://circleci.com/gh/onewelcome/redux-saga-router.svg?style=shield&circle-token=e93541c6c4bc76f7d341e570b11a656955a062d6)](https://circleci.com/gh/onewelcome/redux-saga-router)
 
 #### A router for Redux Saga
 
