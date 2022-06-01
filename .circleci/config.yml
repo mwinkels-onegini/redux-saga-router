@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  onegini-build: onegini/onegini-build@dev:alpha
+  onegini-build: onegini/onegini-build@2
 
 .dev-context: &dev-context
   context: dev-context
@@ -14,6 +14,18 @@ orbs:
   requires:
     - test
 
+.filter-branches-tags: &filter-branches-tags
+  filters:
+    tags:
+      only: /.*/
+
+.filter-tags: &filter-tags
+  filters:
+    tags:
+      only: /.*/
+    branches:
+      ignore: /.*/
+
 workflows:
   version: 2
   build-workflow:
@@ -21,14 +33,29 @@ workflows:
       - onegini-build/npm-build:
           name: build
           <<: *dev-context
+          <<: *filter-branches-tags
 
       - onegini-build/jest:
           name: test
           <<: *dev-context
           <<: *require-build
+          <<: *filter-branches-tags
 
       - onegini-build/npm-audit:
           name: check
           audit_level: critical
           <<: *dev-context
+          <<: *require-build
+
+      - onegini-build/npm-publish:
+          name: publish-library
+          <<: *dev-context
           <<: *require-test
+          <<: *filter-tags
+
+      - onegini-build/notify-released:
+          name: notify-released
+          <<: *dev-context
+          <<: *filter-tags
+          requires:
+            - publish-library
